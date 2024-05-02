@@ -1,0 +1,31 @@
+services:
+  target1:
+    image: target1
+    build:
+      context: dev/
+      dockerfile: target.Dockerfile
+    ports:
+      - "8001:80"
+      # - "2201:22"
+  target2:
+    image: target2
+    build:
+      context: dev/
+      dockerfile: target.Dockerfile
+    ports:
+      - "8002:80"
+      # - "2202:22"
+  anton:
+    image: anton
+    build:
+      context: dev/
+      dockerfile: anton.Dockerfile
+    volumes:
+      - .:/anton
+    working_dir: /anton
+    entrypoint: /bin/sh
+    command: -c "ssh-keyscan -t rsa target1 > /root/.ssh/known_hosts && ssh-keyscan -t rsa target2 >> /root/.ssh/known_hosts && tail -f /dev/null"
+    depends_on:
+      - target1
+      - target2
+

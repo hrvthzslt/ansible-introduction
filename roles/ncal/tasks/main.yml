@@ -1,0 +1,7 @@
+---
+- name: install
+  ansible.builtin.apt:
+    name: ncal
+  become: yes
+  tags:
+    - ncal

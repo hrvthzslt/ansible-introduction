@@ -1,0 +1,6 @@
+---
+- name: Set up apache webserver
+  hosts: webservers
+  roles:
+    - ncal
+    - apache
