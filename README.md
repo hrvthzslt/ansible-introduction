@@ -1,12 +1,24 @@
-# A Very Simple Introduction to Ansible
+# A Very Aggressively Simple Introduction to Ansible
 
-Introduction for writing and running an ansible playbook
+In this tutorial you will have a chance to trying out the automation of very simple web servers setup with ansible. All operations will be executed in docker containers.
 
 ## Disclaimer
 
+If or when you finish this tutorial, you will not know all the basics of ansible. This tutorial is a very simple introduction to ansible. It is not a comprehensive guide.
+
+The goal is to get a feel of what is the **point** of ansible.
+
 ## More disclaimer
 
+In this tutorial, the containers are connected trough ssh with passwords. Although ssh is not exposed, this is not a good practice. In a real world scenario you would use ssh keys. This is just for the sake of simplicity.
+
 ## What you will need
+
+- Docker / docker compose
+- A terminal emulator
+- A text editor
+
+Follow the instructions in the lessons, and you should be alright. There is a branch called `finished` where you can check the intended final state of the project. I did not make branches per lessons, because the complexity of the project is not that high.
 
 # Lesson 0: Introduction
 
@@ -28,7 +40,7 @@ So we will use an ansible **playbook** to execute a set of **tasks** arranged in
 
 We will set up two machines as apache web servers called `target1` and `target2`. We will use a machine called `anton` to run the ansible playbook.
 
-This machines will be created by docker, defined in a docker-compose file.
+This machines will be created by docker, defined in a `docker-compose.yml` file.
 
 ## Starting the Environment
 
@@ -37,6 +49,8 @@ This machines will be created by docker, defined in a docker-compose file.
 ## Lesson 1: Environment setup
 
 We will use docker containers to run ansible playbooks. We have a container called `anton` which will run the playbook against the another containers called `target1` and `target2`.
+
+The contents of this repository are the volume of the `anton` container, this means that the **files and their changes** in the repository are accessible in the `anton` container.
 
 ### Anton
 
@@ -444,3 +458,11 @@ ansible-playbook main.yml --ask-become --tags apache
 This way only the tasks with the `apache` tag will run.
 
 ## Summary
+
+We have set up two apache web servers with a simple html page. We have used roles to organize our tasks and files.
+
+This was your first ansible playbook. At this point you should understand the point of it, but not all the essential features, just some of them.
+
+You can go deep dive into the documentations, trying to automate you local environment, or changing apache to nginx in this repository. The possibilities are endless.
+
+Thank you for reading this tutorial.
