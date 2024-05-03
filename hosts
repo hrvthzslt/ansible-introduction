@@ -1,0 +1,8 @@
+[webservers:vars]
+ansible_connection=ssh
+ansible_user=ansible
+ansible_password=password
+
+[webservers]
+target1
+target2
