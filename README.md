@@ -1,10 +1,10 @@
 # A Very Aggressively Simple Introduction to Ansible
 
-In this tutorial you will have a chance to trying out the automation of very simple web servers setup with ansible. All operations will be executed in docker containers.
+In this tutorial you will have a chance to trying out the automation of very simple web servers with ansible. All operations will be executed in docker containers.
 
 ## Disclaimer
 
-If or when you finish this tutorial, you will not know all the basics of ansible. This tutorial is a very simple introduction to ansible. It is not a comprehensive guide.
+When you finish this tutorial, you will not know all the basics of ansible. This tutorial is a very simple introduction to ansible. It is not a comprehensive guide.
 
 The goal is to get a feel of what is the **point** of ansible.
 
@@ -20,13 +20,13 @@ In this tutorial, the containers are connected trough ssh with passwords. Althou
 
 Follow the instructions in the lessons, and you should be alright. There is a branch called `finished` where you can check the intended final state of the project. I did not make branches per lessons, because the complexity of the project is not that high.
 
-# Lesson 0: Introduction
+## Lesson 0: Introduction
 
-## What is Ansible?
+### What is Ansible?
 
-Ansible is an open-source automation tool, or platform, used for IT tasks such as configuration management, application deployment.
+Ansible is an open-source automation tool used for IT tasks such as configuration management, application deployment.
 
-## Building Blocks of Ansible
+### Building Blocks of Ansible
 
 - **Playbook**: A file where you can write a set of instructions for Ansible to execute.
 - **Inventory**: A list of hosts that Ansible manages.
@@ -34,23 +34,21 @@ Ansible is an open-source automation tool, or platform, used for IT tasks such a
 - **Role**: A way of organizing tasks and related files.
 - **Module**: A reusable, standalone script that Ansible runs on your behalf.
 
-So we will use an ansible **playbook** to execute a set of **tasks** arranged in **roles** on a list of **hosts**.
+So we will use an ansible **playbook** to execute a set of **tasks** arranged in **roles** on a list of hosts defined in an **inventory**.
 
-## What is Our Main Objective?
+### What is Our Main Objective?
 
 We will set up two machines as apache web servers called `target1` and `target2`. We will use a machine called `anton` to run the ansible playbook.
 
-This machines will be created by docker, defined in a `docker-compose.yml` file.
-
-## Starting the Environment
-
-- [ ] run `docker compose up -d` to start the environment
+These machines will be created by docker, defined in a `docker-compose.yml` file.
 
 ## Lesson 1: Environment setup
 
 We will use docker containers to run ansible playbooks. We have a container called `anton` which will run the playbook against the another containers called `target1` and `target2`.
 
 The contents of this repository are the volume of the `anton` container, this means that the **files and their changes** in the repository are accessible in the `anton` container.
+
+- [ ] run `docker compose up -d` to start the environment
 
 ### Anton
 
@@ -72,7 +70,7 @@ ansible --version
 
 ### Installing ansible
 
-We already have ansible installed in the anton container. If you want to install ansible in your local machine, you can install it as a python package, or it could be in your distro's package manager. For example locally (and in the container) I installed it with apt.
+If you want to install ansible in your local machine, you can install it as a python package, or it could be in your distro's package manager. For example locally (and in the container) I installed it with apt.
 
 ### Targets
 
@@ -304,7 +302,7 @@ Now we don't have to provide the inventory file as an option anymore.
 
 First we need to create a role for the web server. We will call it `apache`.
 
-- [ ] Create the following filetree in the root of this project:
+- [ ] Create the following filetree in the root of this project, with the following content:
 
 ```bash
 └── roles
@@ -312,8 +310,6 @@ First we need to create a role for the web server. We will call it `apache`.
         └── tasks
             └── main.yml
 ```
-
-- [ ] Add the role to the playbook - `main.yml` in the root of the project:
 
 ```yaml
 ---
@@ -323,6 +319,8 @@ First we need to create a role for the web server. We will call it `apache`.
     - ncal
     - apache
 ```
+
+- [ ] Add the role to the playbook - `main.yml` in the root of the project:
 
 Now the playbook will can run both tasks contained by the roles.
 
@@ -461,7 +459,7 @@ This way only the tasks with the `apache` tag will run.
 
 We have set up two apache web servers with a simple html page. We have used roles to organize our tasks and files.
 
-This was your first ansible playbook. At this point you should understand the point of it, but not all the essential features, just some of them.
+This was your first ansible playbook. At this point you should understand the point of it, but not all the essential features.
 
 You can go deep dive into the documentations, trying to automate you local environment, or changing apache to nginx in this repository. The possibilities are endless.
 
