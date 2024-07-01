@@ -1,8 +1,8 @@
 ---
 - name: install
   ansible.builtin.apt:
-    name: ncal
+    name: htop
     state: present
   become: yes
   tags:
-    - ncal
+    - htop
