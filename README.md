@@ -91,26 +91,26 @@ Again, `target1` and `target2` are accessable with the following credentials:
 
 ## Lesson 2: Discover the problem
 
-The playbook will be the list of our tasks, but before we set up apache, we will try installing a program called `cal`.
+The playbook will be the list of our tasks, but before we set up apache, we will try installing a program called `htop`.
 
-### Install cal manually
+### Install htop manually
 
 - [ ] Access `target2` from `anton` using ssh
-- [ ] Install `cal` with `sudo apt install ncal`
-- [ ] Run `cal` to check if it is installed
+- [ ] Install `htop` with `sudo apt install htop`
+- [ ] Run `htop` to check if it is installed
 
 ### Emulate the breakdown of our system
 
-Now we have cal on `target2`, we should do this manually to the other targets, or all targets if our system breaks down.
+Now we have htop on `target2`, we should do this manually to the other targets, or all targets if our system breaks down.
 
 Thanks to docker, we can emulate this breakdown by stopping the container of `target2`.
 
 - [ ] Stop the container of `target2` using `docker compose down target2`
 - [ ] Restart with `docker compose up -d target2`
 - [ ] Enter `target2` from `anton` using ssh
-- [ ] Run `cal` to check if it is installed
+- [ ] Run `htop` to check if it is installed
 
-So we have a problem, we need to install `cal` on all targets, and we need to do it every time the system breaks down, or a new machine is added. We can automate this with ansible.
+So we have a problem, we need to install `htop` on all targets, and we need to do it every time the system breaks down, or a new machine is added. We can automate this with ansible.
 
 ## Lesson 3: Create a playbook
 
@@ -174,13 +174,13 @@ The playbook itself doesn't do anything but we can see that it can access the ho
 
 ## Lesson 4: Create a role
 
-We will create a role for installing ncal. In this case we separate roles by the installed software or service.
+We will create a role for installing htop. In this case we separate roles by the installed software or service.
 
 - [ ] You need to make te following filetree in the root of this project:
 
 ```bash
 └── roles
-    └── ncal
+    └── htop
         └── tasks
             └── main.yml
 ```
@@ -194,7 +194,7 @@ This structure will be recognized by ansible as a role. It will automatically ru
 - name: Set up apache webserver
   hosts: all
   roles:
-    - ncal
+    - htop
 ```
 
 If we would run this playbook, it still would not do anything. Lets add a task to the main.yml file.
@@ -205,11 +205,11 @@ If we would run this playbook, it still would not do anything. Lets add a task t
 ---
 - name: install
   ansible.builtin.apt:
-    name: ncal
+    name: htop
     state: present
   become: yes
   tags:
-    - ncal
+    - htop
 ```
 
 Lets break down the task:
@@ -221,7 +221,7 @@ Lets break down the task:
 - The `become` is used to run the task as root.
 - The `tags` are used to run only the tasks with the specified tag. We will try this later.
 
-In essence this task means: `sudo apt install ncal`.
+In essence this task means: `sudo apt install htop`.
 
 The verbose nature of these task are important because the module will run the task by its properties in an idempotent manner, which means every run will yield the same result. This is one of the **biggest** advantages of ansible.
 
@@ -251,10 +251,10 @@ In our case, it is the same `password`, but we have to type it twice.
 - [ ] Connect from `anton` to `target1` and run the following command:
 
 ```bash
-cal
+htop
 ```
 
-Now we see the calendar for the current month. Nice.
+Now we can see information about the system. Nice!
 
 ### Variables
 
@@ -316,7 +316,7 @@ First we need to create a role for the web server. We will call it `apache`.
 - name: Set up apache webserver
   hosts: all
   roles:
-    - ncal
+    - htop
     - apache
 ```
 
@@ -340,7 +340,7 @@ Now the playbook will can run both tasks contained by the roles.
       become: yes
 ```
 
-This will install `apache` just like we did with `ncal`, but there is two important differences:
+This will install `apache` just like we did with `htop`, but there is two important differences:
 
 - In this case the `state` is not defined, which means that the default state is `present`.
 - The `block` is used to group tasks. This way when we add more tasks to the role, tags will apply to the block and we don't have to add them to every task.
