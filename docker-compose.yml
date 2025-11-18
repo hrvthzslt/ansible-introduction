@@ -1,6 +1,7 @@
 services:
   target1:
     image: target1
+    hostname: target1
     build:
       context: dev/
       dockerfile: target.Dockerfile
@@ -9,6 +10,7 @@ services:
       # - "2201:22"
   target2:
     image: target2
+    hostname: target2
     build:
       context: dev/
       dockerfile: target.Dockerfile
@@ -17,6 +19,7 @@ services:
       # - "2202:22"
   anton:
     image: anton
+    hostname: anton
     build:
       context: dev/
       dockerfile: anton.Dockerfile
